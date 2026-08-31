@@ -1,0 +1,22 @@
+{
+  "name": "registervakt",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Overvaking av endringer i Enhetsregisteret. Varsler pa e-post, Slack og webhook.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "NODE_ENV=development node --watch src/index.js",
+    "test": "NODE_ENV=test node --test --test-concurrency=1 \"test/**/*.test.js\"",
+    "doctor": "node scripts/doctor.js",
+    "backup": "node scripts/backup.js",
+    "deploy": "bash deploy.sh"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "stripe": "^22.6.0"
+  }
+}

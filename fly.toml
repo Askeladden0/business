@@ -1,0 +1,43 @@
+# Fly.io-oppsett for Registervakt.
+# Endre app-navnet før første deploy — det må være globalt unikt.
+app = "registervakt"
+primary_region = "arn"   # Stockholm: nærmest Norge, og innenfor EU/EØS.
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PORT = "8080"
+  NODE_ENV = "production"
+  DATABASE_PATH = "/data/registervakt.db"
+  BACKUP_DIR = "/data/backups"
+  POLL_INTERVAL_MINUTES = "60"
+  DIGEST_HOUR_OSLO = "7"
+  STALE_POLL_HOURS = "6"
+  TRUST_PROXY = "1"
+
+# SQLite på et volum. Én maskin, én skriver — ikke skaler til flere.
+[[mounts]]
+  source = "registervakt_data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  # Maskinen MÅ stå på: den planlagte pollingen kjører i prosessen.
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+
+  [[http_service.checks]]
+    grace_period = "20s"
+    interval = "60s"
+    method = "GET"
+    timeout = "10s"
+    path = "/healthz"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"
+  cpus = 1
