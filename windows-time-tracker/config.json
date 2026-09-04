@@ -1,0 +1,16 @@
+{
+  "database_path": "data/timetracker.db",
+  "poll_interval_seconds": 1,
+  "idle_threshold_seconds": 300,
+  "pomodoro": {
+    "enabled": true,
+    "work_minutes": 45,
+    "break_minutes": 10
+  },
+  "autostart": {
+    "enabled": true
+  },
+  "dashboard": {
+    "default_period": "day"
+  }
+}
